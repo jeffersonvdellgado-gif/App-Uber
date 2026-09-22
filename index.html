@@ -6,22 +6,14 @@
     <title>Motorista PRO</title>
     <style>
         :root {
-            --bg-dark: #0f0f13;
-            --bg-card: #1c1c24;
-            --neon-green: #39ff14;
-            --neon-blue: #00f3ff;
-            --neon-red: #ff2a2a;
-            --text-main: #ffffff;
-            --text-muted: #8892b0;
+            --bg-dark: #0f0f13; --bg-card: #1c1c24; --neon-green: #39ff14; 
+            --neon-blue: #00f3ff; --neon-red: #ff2a2a; --text-main: #ffffff; --text-muted: #8892b0;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { background-color: var(--bg-dark); color: var(--text-main); overscroll-behavior: none; padding-bottom: 70px; }
         
-        /* Navegação Inferior */
-        .nav-bottom {
-            position: fixed; bottom: 0; left: 0; width: 100%; background: #000; display: flex; justify-content: space-around;
-            padding: 15px 0; border-top: 1px solid #333; z-index: 100;
-        }
+        /* Navegação */
+        .nav-bottom { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #333; z-index: 100; }
         .nav-item { color: var(--text-muted); font-size: 12px; text-align: center; font-weight: bold; text-transform: uppercase; }
         .nav-item.active { color: var(--neon-blue); text-shadow: 0 0 10px rgba(0,243,255,0.5); }
         
@@ -30,7 +22,7 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Tipografia e Cards */
+        /* Componentes */
         h2 { color: var(--neon-blue); font-size: 18px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
         .card { background: var(--bg-card); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #2a2a35; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -38,27 +30,26 @@
         /* Inputs e Botões */
         .input-group { margin-bottom: 15px; }
         label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; }
-        input, select {
-            width: 100%; background: #0a0a0c; border: 1px solid #333; color: #fff; padding: 15px;
-            border-radius: 8px; font-size: 20px; outline: none; transition: border 0.2s;
-        }
+        input { width: 100%; background: #0a0a0c; border: 1px solid #333; color: #fff; padding: 15px; border-radius: 8px; font-size: 20px; outline: none; }
         input:focus { border-color: var(--neon-blue); }
+        input[type="checkbox"] { width: 25px; height: 25px; }
+        
         .btn { width: 100%; padding: 18px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
         .btn-green { background: var(--neon-green); color: #000; box-shadow: 0 0 15px rgba(57,255,20,0.3); }
         .btn-red-outline { background: transparent; color: var(--neon-red); border: 2px solid var(--neon-red); }
         .btn-blue { background: #004455; color: var(--neon-blue); border: 1px solid var(--neon-blue); }
         .btn-danger { background: #550000; color: var(--neon-red); border: 1px solid var(--neon-red); }
+        
         .tag-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
         .tag { padding: 10px 15px; background: #0a0a0c; border: 1px solid #333; border-radius: 20px; font-size: 14px; }
         .tag.selected { background: var(--neon-blue); color: #000; font-weight: bold; }
 
-        /* Dados Painel */
+        /* Textos Painel */
         .stat-value { font-size: 24px; font-weight: bold; color: var(--neon-green); }
         .stat-label { font-size: 11px; color: var(--text-muted); }
         .progress-bar { width: 100%; height: 8px; background: #333; border-radius: 4px; margin-top: 5px; overflow: hidden; }
         .progress-fill { height: 100%; background: var(--neon-green); width: 0%; transition: width 0.3s; }
         .list-hour { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2a2a35; font-size: 14px; }
-        .empty-state { text-align: center; color: var(--text-muted); padding: 40px 20px; font-size: 16px; }
         
         .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--neon-green); color: #000; padding: 10px 20px; border-radius: 20px; font-weight: bold; display: none; z-index: 1000; }
     </style>
@@ -77,7 +68,7 @@
             </div>
             <div class="input-group">
                 <label>KM da Corrida</label>
-                <input type="text" id="inKm" inputmode="decimal" placeholder="0.0">
+                <input type="number" id="inKm" inputmode="decimal" placeholder="0.0">
             </div>
             <button class="btn btn-green" onclick="salvarCorrida()">Salvar Corrida</button>
             <button class="btn btn-red-outline" onclick="cancelarUltima()">Cancelar Última</button>
@@ -89,47 +80,19 @@
         <h2>Painel Diário</h2>
         <div class="card">
             <div class="grid-2">
-                <div>
-                    <div class="stat-label">TOTAL (R$)</div>
-                    <div class="stat-value" id="pTotalRs">R$ 0,00</div>
-                </div>
-                <div>
-                    <div class="stat-label">TOTAL KM</div>
-                    <div class="stat-value" style="color: #fff;" id="pTotalKm">0.0</div>
-                </div>
-                <div>
-                    <div class="stat-label">CORRIDAS</div>
-                    <div class="stat-value" style="color: var(--neon-blue);" id="pTotalCorridas">0</div>
-                </div>
-                <div>
-                    <div class="stat-label">MÉDIA (R$/KM)</div>
-                    <div class="stat-value" style="color: #fff;" id="pMediaRsKm">R$ 0,00</div>
-                </div>
+                <div><div class="stat-label">TOTAL (R$)</div><div class="stat-value" id="pTotalRs">R$ 0,00</div></div>
+                <div><div class="stat-label">TOTAL KM</div><div class="stat-value" style="color: #fff;" id="pTotalKm">0.0</div></div>
+                <div><div class="stat-label">CORRIDAS</div><div class="stat-value" style="color: var(--neon-blue);" id="pTotalCorridas">0</div></div>
+                <div><div class="stat-label">MÉDIA (R$/KM)</div><div class="stat-value" style="color: #fff;" id="pMediaRsKm">R$ 0,00</div></div>
             </div>
             <div class="stat-label" style="margin-top: 15px;" id="pMetaText">META: 0%</div>
             <div class="progress-bar"><div class="progress-fill" id="pMetaFill"></div></div>
         </div>
         <div class="grid-2">
-            <div class="card">
-                <div class="stat-label">MANHÃ (05h-12h)</div>
-                <div style="color:var(--neon-green); font-weight:bold" id="pManhaRs">R$ 0,00</div>
-                <div class="stat-label" id="pManhaKm">0.0 km</div>
-            </div>
-            <div class="card">
-                <div class="stat-label">TARDE (12h-17h)</div>
-                <div style="color:var(--neon-green); font-weight:bold" id="pTardeRs">R$ 0,00</div>
-                <div class="stat-label" id="pTardeKm">0.0 km</div>
-            </div>
-            <div class="card">
-                <div class="stat-label">NOITE (17h-22h)</div>
-                <div style="color:var(--neon-green); font-weight:bold" id="pNoiteRs">R$ 0,00</div>
-                <div class="stat-label" id="pNoiteKm">0.0 km</div>
-            </div>
-            <div class="card">
-                <div class="stat-label">EXTRA (22h-05h)</div>
-                <div style="color:var(--neon-green); font-weight:bold" id="pExtraRs">R$ 0,00</div>
-                <div class="stat-label" id="pExtraKm">0.0 km</div>
-            </div>
+            <div class="card"><div class="stat-label">MANHÃ (05h-12h)</div><div style="color:var(--neon-green); font-weight:bold" id="pManhaRs">R$ 0,00</div><div class="stat-label" id="pManhaKm">0.0 km</div></div>
+            <div class="card"><div class="stat-label">TARDE (12h-17h)</div><div style="color:var(--neon-green); font-weight:bold" id="pTardeRs">R$ 0,00</div><div class="stat-label" id="pTardeKm">0.0 km</div></div>
+            <div class="card"><div class="stat-label">NOITE (17h-22h)</div><div style="color:var(--neon-green); font-weight:bold" id="pNoiteRs">R$ 0,00</div><div class="stat-label" id="pNoiteKm">0.0 km</div></div>
+            <div class="card"><div class="stat-label">EXTRA (22h-05h)</div><div style="color:var(--neon-green); font-weight:bold" id="pExtraRs">R$ 0,00</div><div class="stat-label" id="pExtraKm">0.0 km</div></div>
         </div>
         <div class="card" id="listHoras"></div>
     </div>
@@ -143,46 +106,28 @@
                 <div class="tag" onclick="selTag(this, 'combustivel')">Álcool</div>
             </div>
             <div class="grid-2">
-                <div class="input-group">
-                    <label>Valor (R$)</label>
-                    <input type="text" id="absValor" inputmode="numeric" placeholder="0,00" oninput="calcLitros()">
-                </div>
-                <div class="input-group">
-                    <label>Preço Litro (R$)</label>
-                    <input type="number" id="absPreco" inputmode="decimal" placeholder="0.00" oninput="calcLitros()">
-                </div>
+                <div class="input-group"><label>Valor (R$)</label><input type="text" id="absValor" inputmode="numeric" placeholder="0,00" oninput="calcLitros()"></div>
+                <div class="input-group"><label>Preço Litro (R$)</label><input type="number" id="absPreco" inputmode="decimal" placeholder="0.00" oninput="calcLitros()"></div>
             </div>
             <div class="stat-label">Total Litros: <span id="absLitrosVal" style="color:#fff; font-weight:bold;">0.0 L</span></div>
             <br>
             <div class="grid-2">
-                <div class="input-group">
-                    <label>Odômetro Atual</label>
-                    <input type="number" id="absOdo" inputmode="decimal" placeholder="KM">
-                </div>
-                <div class="input-group">
-                    <label>Consumo Painel (Km/L)</label>
-                    <input type="number" id="absPainel" inputmode="decimal" placeholder="0.0">
-                </div>
+                <div class="input-group"><label>Odômetro Atual</label><input type="number" id="absOdo" inputmode="decimal" placeholder="KM"></div>
+                <div class="input-group"><label>Consumo Painel (Km/L)</label><input type="number" id="absPainel" inputmode="decimal" placeholder="0.0"></div>
             </div>
             <button class="btn btn-blue" onclick="salvarAbastecimento()">Registrar Abastecimento</button>
         </div>
 
         <h2>Despesas Gerais</h2>
         <div class="card">
-            <div class="input-group">
-                <label>Valor (R$)</label>
-                <input type="text" id="despValor" inputmode="numeric" placeholder="0,00">
-            </div>
+            <div class="input-group"><label>Valor (R$)</label><input type="text" id="despValor" inputmode="numeric" placeholder="0,00"></div>
             <div class="tag-group" id="tagDespesa">
                 <div class="tag selected" onclick="selTag(this, 'despesa')">Alimentação</div>
                 <div class="tag" onclick="selTag(this, 'despesa')">Limpeza</div>
                 <div class="tag" onclick="selTag(this, 'despesa')">Manutenção</div>
                 <div class="tag" onclick="selTag(this, 'despesa')">Outros</div>
             </div>
-            <div class="input-group">
-                <label>Descrição (Opcional)</label>
-                <input type="text" id="despDesc" placeholder="...">
-            </div>
+            <div class="input-group"><label>Descrição (Opcional)</label><input type="text" id="despDesc" placeholder="..."></div>
             <button class="btn btn-blue" onclick="salvarDespesa()">Registrar Despesa</button>
         </div>
     </div>
@@ -190,10 +135,7 @@
     <!-- ABA 4: RELATÓRIOS -->
     <div id="aba4" class="tab-content">
         <h2>Consulta por Data</h2>
-        <div class="card">
-            <input type="date" id="relDate" onchange="gerarRelatorio()" style="margin-bottom: 10px;">
-            <div id="relDataResult"></div>
-        </div>
+        <div class="card"><input type="date" id="relDate" onchange="gerarRelatorio()" style="margin-bottom: 10px;"><div id="relDataResult"></div></div>
         <h2>Resumos</h2>
         <div id="relResumos"></div>
     </div>
@@ -202,22 +144,10 @@
     <div id="aba5" class="tab-content">
         <h2>Configurações</h2>
         <div class="card">
-            <div class="input-group">
-                <label>KM Inicial (Marco Zero)</label>
-                <input type="number" id="cfgKm" inputmode="decimal" onchange="salvarCfg()">
-            </div>
-            <div class="input-group">
-                <label>Meta Diária (R$)</label>
-                <input type="text" id="cfgMeta" inputmode="numeric" oninput="salvarCfg()">
-            </div>
-            <div class="input-group" style="display:flex; justify-content:space-between; align-items:center;">
-                <label>Som ao Salvar</label>
-                <input type="checkbox" id="cfgSom" onchange="salvarCfg()" style="width:25px; height:25px;">
-            </div>
-            <div class="input-group" style="display:flex; justify-content:space-between; align-items:center;">
-                <label>Vibrar ao Salvar</label>
-                <input type="checkbox" id="cfgVibra" onchange="salvarCfg()" style="width:25px; height:25px;">
-            </div>
+            <div class="input-group"><label>KM Inicial</label><input type="number" id="cfgKm" inputmode="decimal" onchange="salvarCfg()"></div>
+            <div class="input-group"><label>Meta Diária (R$)</label><input type="text" id="cfgMeta" inputmode="numeric" oninput="salvarCfg()"></div>
+            <div class="input-group" style="display:flex; justify-content:space-between; align-items:center;"><label>Som ao Salvar</label><input type="checkbox" id="cfgSom" onchange="salvarCfg()"></div>
+            <div class="input-group" style="display:flex; justify-content:space-between; align-items:center;"><label>Vibrar ao Salvar</label><input type="checkbox" id="cfgVibra" onchange="salvarCfg()"></div>
         </div>
         <div class="card">
             <div class="stat-label" style="margin-bottom: 10px;" id="lastBackup">Último backup: Nunca</div>
@@ -236,17 +166,28 @@
     </div>
 
     <script>
-        // --- ESTADO DA APLICAÇÃO ---
-        let dados = JSON.parse(localStorage.getItem('uberAppDados')) || { corridas: [], abastecimentos: [], despesas: [] };
-        let config = JSON.parse(localStorage.getItem('uberAppCfg')) || { kmInicial: '', meta: '35000', somAtivo: true, vibraAtivo: true, lastBackup: null };
+        // --- BLINDAGEM DE MEMÓRIA (Impede que o app trave se o navegador bloquear) ---
+        let dados = { corridas: [], abastecimentos: [], despesas: [] };
+        let config = { kmInicial: '', meta: '35000', somAtivo: true, vibraAtivo: true, lastBackup: null };
 
-        // --- FUNÇÕES UTILITÁRIAS ---
-        const salvarBD = () => localStorage.setItem('uberAppDados', JSON.stringify(dados));
+        try {
+            const dbDados = localStorage.getItem('uberAppDados');
+            if (dbDados) dados = JSON.parse(dbDados);
+            const dbCfg = localStorage.getItem('uberAppCfg');
+            if (dbCfg) config = JSON.parse(dbCfg);
+        } catch (erro) {
+            alert("Aviso: Seu navegador bloqueou a memória. Desative o modo anônimo para o app funcionar corretamente.");
+        }
+
+        const salvarBD = () => {
+            try { localStorage.setItem('uberAppDados', JSON.stringify(dados)); } catch(e) {}
+        };
+
         const mostrarToast = (msg, cor) => {
             const t = document.getElementById('toast');
-            t.textContent = msg; t.style.background = cor || 'var(--neon-green)'; t.style.color = cor ? '#fff' : '#000';
-            t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 2000);
+            if(t) { t.textContent = msg; t.style.background = cor || 'var(--neon-green)'; t.style.color = cor ? '#fff' : '#000'; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 2000); }
         };
+
         const playFeedback = () => {
             if(config.vibraAtivo && navigator.vibrate) navigator.vibrate(50);
             if(config.somAtivo) {
@@ -255,8 +196,7 @@
                     const osc = ctx.createOscillator(), gain = ctx.createGain();
                     osc.connect(gain); gain.connect(ctx.destination);
                     osc.type = 'sine'; osc.frequency.setValueAtTime(1000, ctx.currentTime);
-                    gain.gain.setValueAtTime(0.1, ctx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+                    gain.gain.setValueAtTime(0.1, ctx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
                     osc.start(); osc.stop(ctx.currentTime + 0.1);
                 } catch(e) {}
             }
@@ -273,8 +213,9 @@
             if(id === 5) carregarCfg();
         }
 
-        // --- MÁSCARA DE MOEDA (Estilo Banco) ---
+        // --- MÁSCARA DE MOEDA ---
         function maskMoeda(e) {
+            if(!e || !e.target) return;
             let v = e.target.value.replace(/\D/g, "");
             if(v === "") v = "0";
             v = (parseInt(v) / 100).toFixed(2) + "";
@@ -282,43 +223,50 @@
             v = v.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
             e.target.value = v;
         }
-        function moedaToFloat(str) { return parseFloat(str.replace(/\./g, "").replace(",", ".")) || 0; }
-        function floatToMoeda(num) { return num.toLocaleString('pt-BR', {style:'currency', currency:'BRL'}); }
+        function moedaToFloat(str) { return parseFloat((str||"0").replace(/\./g, "").replace(",", ".")) || 0; }
+        function floatToMoeda(num) { return (num||0).toLocaleString('pt-BR', {style:'currency', currency:'BRL'}); }
 
-        document.getElementById('inValor').addEventListener('input', maskMoeda);
-        document.getElementById('absValor').addEventListener('input', maskMoeda);
-        document.getElementById('despValor').addEventListener('input', maskMoeda);
-        document.getElementById('cfgMeta').addEventListener('input', maskMoeda);
+        // Inicializa listeners de input (com blindagem extra)
+        window.onload = function() {
+            const inValor = document.getElementById('inValor');
+            if(inValor) { inValor.addEventListener('input', maskMoeda); maskMoeda({target: inValor}); }
+            const absValor = document.getElementById('absValor');
+            if(absValor) { absValor.addEventListener('input', maskMoeda); maskMoeda({target: absValor}); }
+            const despValor = document.getElementById('despValor');
+            if(despValor) { despValor.addEventListener('input', maskMoeda); maskMoeda({target: despValor}); }
+            const cfgMeta = document.getElementById('cfgMeta');
+            if(cfgMeta) { cfgMeta.addEventListener('input', maskMoeda); }
+        };
 
         // --- ABA 1: LANÇAMENTOS ---
         function salvarCorrida() {
-            const vStr = document.getElementById('inValor').value;
-            const km = parseFloat(document.getElementById('inKm').value.replace(',','.'));
-            const valor = moedaToFloat(vStr);
+            const elValor = document.getElementById('inValor');
+            const elKm = document.getElementById('inKm');
+            const valor = moedaToFloat(elValor.value);
+            const km = parseFloat(elKm.value.replace(',','.')) || 0;
             if(valor <= 0) return mostrarToast('Valor inválido', 'var(--neon-red)');
             
-            dados.corridas.push({ id: Date.now(), valor, km: km||0, data: new Date().toISOString() });
+            dados.corridas.push({ id: Date.now(), valor: valor, km: km, data: new Date().toISOString() });
             salvarBD(); playFeedback(); mostrarToast('Corrida Lançada!');
             
-            document.getElementById('inValor').value = '';
-            document.getElementById('inKm').value = '';
-            maskMoeda({target: document.getElementById('inValor')}); // Reseta pra 0,00
-            document.getElementById('inValor').focus();
+            elValor.value = ''; elKm.value = '';
+            maskMoeda({target: elValor});
+            elValor.focus();
         }
 
         function cancelarUltima() {
-            if(dados.corridas.length === 0) return mostrarToast('Nenhuma corrida', 'var(--neon-red)');
+            if(!dados.corridas || dados.corridas.length === 0) return mostrarToast('Nenhuma corrida', 'var(--neon-red)');
             dados.corridas.pop(); salvarBD();
-            mostrarToast('Última corrida apagada!', 'var(--neon-red)');
+            mostrarToast('Última cancelada!', 'var(--neon-red)');
         }
 
         // --- ABA 2: PAINEL ---
         function getTurno(dateStr) {
             const h = new Date(dateStr).getHours();
-            if(h >= 5 && h < 12) return 'manha';
-            if(h >= 12 && h < 17) return 'tarde';
-            if(h >= 17 && h < 22) return 'noite';
-            return 'extra';
+            if(h >= 5 && h < 12) return 'Manha';
+            if(h >= 12 && h < 17) return 'Tarde';
+            if(h >= 17 && h < 22) return 'Noite';
+            return 'Extra';
         }
         
         function atualizarPainel() {
@@ -326,14 +274,13 @@
             const corridasHoje = dados.corridas.filter(c => new Date(c.data).toDateString() === hojeStr);
             
             let totRs = 0, totKm = 0;
-            let turnos = { manha: {r:0, k:0}, tarde: {r:0, k:0}, noite: {r:0, k:0}, extra: {r:0, k:0} };
+            let turnos = { Manha: {r:0, k:0}, Tarde: {r:0, k:0}, Noite: {r:0, k:0}, Extra: {r:0, k:0} };
             let horas = {};
 
             corridasHoje.forEach(c => {
                 totRs += c.valor; totKm += c.km;
                 const t = getTurno(c.data);
                 turnos[t].r += c.valor; turnos[t].k += c.km;
-                
                 const hr = new Date(c.data).getHours().toString().padStart(2, '0') + ':00';
                 if(!horas[hr]) horas[hr] = {r:0, k:0};
                 horas[hr].r += c.valor; horas[hr].k += c.km;
@@ -344,22 +291,21 @@
             document.getElementById('pTotalCorridas').innerText = corridasHoje.length;
             document.getElementById('pMediaRsKm').innerText = totKm > 0 ? floatToMoeda(totRs/totKm) : 'R$ 0,00';
 
-            const metaStr = parseFloat(config.meta) / 100;
-            const pct = metaStr > 0 ? Math.min((totRs / metaStr) * 100, 100) : 0;
-            document.getElementById('pMetaText').innerText = `META: ${pct.toFixed(1)}% de ${floatToMoeda(metaStr)}`;
+            const metaVal = parseFloat(config.meta) / 100;
+            const pct = metaVal > 0 ? Math.min((totRs / metaVal) * 100, 100) : 0;
+            document.getElementById('pMetaText').innerText = `META: ${pct.toFixed(1)}% de ${floatToMoeda(metaVal)}`;
             document.getElementById('pMetaFill').style.width = pct + '%';
 
-            ['manha','tarde','noite','extra'].forEach(t => {
-                const T = t.charAt(0).toUpperCase() + t.slice(1);
-                document.getElementById(`p${T}Rs`).innerText = floatToMoeda(turnos[t].r);
-                document.getElementById(`p${T}Km`).innerText = turnos[t].k.toFixed(1) + ' km';
+            ['Manha','Tarde','Noite','Extra'].forEach(t => {
+                document.getElementById(`p${t}Rs`).innerText = floatToMoeda(turnos[t].r);
+                document.getElementById(`p${t}Km`).innerText = turnos[t].k.toFixed(1) + ' km';
             });
 
-            const divHoras = document.getElementById('listHoras');
-            divHoras.innerHTML = '<div class="stat-label" style="margin-bottom:10px">RENDIMENTO POR HORA</div>';
+            let htmlHoras = '<div class="stat-label" style="margin-bottom:10px">RENDIMENTO POR HORA</div>';
             Object.keys(horas).sort().forEach(h => {
-                divHoras.innerHTML += `<div class="list-hour"><span>${h}</span><span style="color:#fff">${floatToMoeda(horas[h].r)}</span><span style="color:var(--text-muted)">${horas[h].k.toFixed(1)} km</span></div>`;
+                htmlHoras += `<div class="list-hour"><span>${h}</span><span style="color:#fff">${floatToMoeda(horas[h].r)}</span><span style="color:var(--text-muted)">${horas[h].k.toFixed(1)} km</span></div>`;
             });
+            document.getElementById('listHoras').innerHTML = htmlHoras;
         }
 
         // --- ABA 3: DESPESAS ---
@@ -367,16 +313,20 @@
             document.querySelectorAll(`#tag${grupo.charAt(0).toUpperCase()+grupo.slice(1)} .tag`).forEach(t => t.classList.remove('selected'));
             el.classList.add('selected');
         }
-        function getSelTag(grupo) {
-            return document.querySelector(`#tag${grupo.charAt(0).toUpperCase()+grupo.slice(1)} .tag.selected`).innerText;
-        }
         function calcLitros() {
             const v = moedaToFloat(document.getElementById('absValor').value);
-            const p = parseFloat(document.getElementById('absPreco').value);
+            const p = parseFloat(document.getElementById('absPreco').value) || 0;
             document.getElementById('absLitrosVal').innerText = (v > 0 && p > 0) ? (v/p).toFixed(2) + ' L' : '0.0 L';
         }
         function salvarAbastecimento() {
             const valor = moedaToFloat(document.getElementById('absValor').value);
             const preco = parseFloat(document.getElementById('absPreco').value) || 0;
-            const odo = parseFloat(document.getElementById('absOdo').value) || 0;
-            const paine
+            if(valor <= 0) return mostrarToast('Valor inválido', 'var(--neon-red)');
+            dados.abastecimentos.push({ id: Date.now(), tipo: document.querySelector('#tagCombustivel .tag.selected').innerText, valor: valor, preco: preco, litros: preco>0?valor/preco:0, odo: parseFloat(document.getElementById('absOdo').value)||0, painel: parseFloat(document.getElementById('absPainel').value)||0, data: new Date().toISOString() });
+            salvarBD(); mostrarToast('Salvo!');
+            document.getElementById('absValor').value=''; document.getElementById('absOdo').value=''; calcLitros(); maskMoeda({target: document.getElementById('absValor')});
+        }
+        function salvarDespesa() {
+            const valor = moedaToFloat(document.getElementById('despValor').value);
+            if(valor <= 0) return mostrarToast('Valor inválido', 'var(--neon-red)');
+            dados.despesas.push({ id: Date.now(), valor: valor, categoria: document.queryS
